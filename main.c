@@ -57,6 +57,7 @@ VM* newVM() {
   return vm;
 }
 
+
 void push(VM* vm, Object* value) {
   assert(vm->stackSize < STACK_MAX, "Stack overflow!");
   vm->stack[vm->stackSize++] = value;
@@ -167,6 +168,12 @@ void objectPrint(Object* object) {
   }
 }
 
+VM* freeVM(VM *vm) {
+  while(vm->stackSize >0) pop(vm);
+  gc(vm);
+  free(vm);
+}
+
 void test1() {
   printf("Test 1: Objects on stack are preserved.\n");
   VM* vm = newVM();
@@ -175,6 +182,7 @@ void test1() {
 
   gc(vm);
   assert(vm->numObjects == 2, "Should have preserved objects.");
+  freeVM(vm);
 }
 
 void test2() {
@@ -187,6 +195,7 @@ void test2() {
 
   gc(vm);
   assert(vm->numObjects == 0, "Should have collected objects.");
+  freeVM(vm);
 }
 
 void test3() {
@@ -202,6 +211,7 @@ void test3() {
 
   gc(vm);
   assert(vm->numObjects == 7, "Should have reached objects.");
+  freeVM(vm);
 }
 
 void test4() {
@@ -219,6 +229,7 @@ void test4() {
 
   gc(vm);
   assert(vm->numObjects == 4, "Should have collected objects.");
+  freeVM(vm);
 }
 
 void perfTest() {
@@ -234,15 +245,15 @@ void perfTest() {
       pop(vm);
     }
   }
+  freeVM(vm);
 }
 
 int main(int argc, const char * argv[]) {
-  test1();
+  test1(); 
   test2();
   test3();
   test4();
-
   perfTest();
-
+  
   return 0;
 }
