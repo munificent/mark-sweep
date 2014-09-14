@@ -1,11 +1,13 @@
+BIN=markandsweep
+
 .PHONY : clean 
 
-mas : main.c
-	gcc  -ggdb -std=gnu99  main.c -o mas
+$(BIN) : main.c
+	$(CC)  -ggdb -std=gnu99  main.c -o $(BIN)
 
 clean :
-	rm -f mas *~
+	rm -f $(BIN) *~
 
-run : mas
-	valgrind  --leak-check=yes mas
+run : $(BIN)
+	valgrind  --leak-check=yes $(BIN)
 

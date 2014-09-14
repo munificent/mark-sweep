@@ -168,8 +168,8 @@ void objectPrint(Object* object) {
   }
 }
 
-VM* freeVM(VM *vm) {
-  while(vm->stackSize >0) pop(vm);
+void freeVM(VM *vm) {
+  vm->stackSize = 0;
   gc(vm);
   free(vm);
 }
