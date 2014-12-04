@@ -124,7 +124,8 @@ void gc(VM* vm) {
 
 Object* newObject(VM* vm, ObjectType type) {
   if (vm->numObjects == vm->maxObjects) gc(vm);
-
+  /*gc might collect nothing,should check again*/
+  if (vm->numObjects == vm->maxObjects) return NULL;
   Object* object = malloc(sizeof(Object));
   object->type = type;
   object->next = vm->firstObject;
