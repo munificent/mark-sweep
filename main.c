@@ -225,8 +225,8 @@ void test4() {
   pushInt(vm, 4);
   Object* b = pushPair(vm);
 
-  a->tail = b;
-  b->tail = a;
+  a->tail = b; //the orginal a->tail object is unreachable
+  b->tail = a; //the orginal b->tail object is unreachable
 
   gc(vm);
   assert(vm->numObjects == 4, "Should have collected objects.");
