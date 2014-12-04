@@ -124,7 +124,8 @@ void gc(VM* vm) {
 
 Object* newObject(VM* vm, ObjectType type) {
   if (vm->numObjects == vm->maxObjects) gc(vm);
-
+  /*gc might collect nothing,should check again*/
+  if (vm->numObjects == vm->maxObjects) return NULL;
   Object* object = malloc(sizeof(Object));
   object->type = type;
   object->next = vm->firstObject;
@@ -224,8 +225,8 @@ void test4() {
   pushInt(vm, 4);
   Object* b = pushPair(vm);
 
-  a->tail = b;
-  b->tail = a;
+  a->tail = b; //the orginal a->tail object is unreachable
+  b->tail = a; //the orginal b->tail object is unreachable
 
   gc(vm);
   assert(vm->numObjects == 4, "Should have collected objects.");
