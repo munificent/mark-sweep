@@ -224,6 +224,7 @@ void test4() {
   pushInt(vm, 4);
   Object* b = pushPair(vm);
 
+  /* Set up a cycle, and also make 2 and 4 unreachable and collectible. */
   a->tail = b;
   b->tail = a;
 
@@ -249,11 +250,11 @@ void perfTest() {
 }
 
 int main(int argc, const char * argv[]) {
-  test1(); 
+  test1();
   test2();
   test3();
   test4();
   perfTest();
-  
+
   return 0;
 }
