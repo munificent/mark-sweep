@@ -9,5 +9,5 @@ clean :
 	rm -f $(BIN) *~
 
 run : $(BIN)
-	valgrind  --leak-check=yes $(BIN)
+	valgrind  --leak-check=yes ./$(BIN)
 
