@@ -116,7 +116,7 @@ void gc(VM* vm) {
   markAll(vm);
   sweep(vm);
 
-  vm->maxObjects = vm->numObjects * 2;
+  vm->maxObjects = numObjects * 2;
 
   printf("Collected %d objects, %d remaining.\n", numObjects - vm->numObjects,
          vm->numObjects);
