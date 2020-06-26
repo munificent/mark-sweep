@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #define STACK_MAX 256
+#define INIT_OBJ_NUM_MAX 8
 
 typedef enum {
   OBJ_INT,
@@ -53,7 +54,7 @@ VM* newVM() {
   vm->stackSize = 0;
   vm->firstObject = NULL;
   vm->numObjects = 0;
-  vm->maxObjects = 8;
+  vm->maxObjects = INIT_OBJ_NUM_MAX;
   return vm;
 }
 
@@ -116,7 +117,7 @@ void gc(VM* vm) {
   markAll(vm);
   sweep(vm);
 
-  vm->maxObjects = vm->numObjects * 2;
+  vm->maxObjects = vm->numObjects == 0 ? INIT_OBJ_NUM_MAX : vm->numObjects * 2;
 
   printf("Collected %d objects, %d remaining.\n", numObjects - vm->numObjects,
          vm->numObjects);
